@@ -27,7 +27,7 @@ const cards = await Promise.all(projects.map(async (p) => ({ p, photo: (await re
     ) : (
       <div class="empty-state">
         <h3>Nothing posted here yet</h3>
-        <p>Check back soon, or <a href={url("about/#contact")} style="color:var(--accent-bright)">get in touch</a> to talk about a project.</p>
+        <p>Check back soon, or <a href={url("contact/")} style="color:var(--accent-bright)">get in touch</a> to talk about a project.</p>
       </div>
     )}
   </div>

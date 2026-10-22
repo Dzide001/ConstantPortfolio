@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE } from "../data/categories";
+---
+<Layout title="Contact" active="contact" description="Get in touch with Constant K. Dzah about sound design, live sound or system design work.">
+  <section class="hero hero-sm">
+    <div class="container">
+      <div class="hero-eyebrow">Contact</div>
+      <h1>Let's work together</h1>
+      <p class="lead">Tell me about your show, film, event or venue. I usually reply within a couple of days.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:56px;">
+    <div class="container contact-grid">
+      <form class="contact-form" id="contact-form" data-endpoint={SITE.formEndpoint} data-email={SITE.email} novalidate>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="c-name">Name</label>
+            <input type="text" id="c-name" name="name" autocomplete="name" required />
+          </div>
+          <div class="form-field">
+            <label for="c-email">Email</label>
+            <input type="email" id="c-email" name="email" autocomplete="email" required />
+          </div>
+          <div class="form-field full">
+            <label for="c-type">What's it about?</label>
+            <select id="c-type" name="topic">
+              <option>Theatre sound design</option>
+              <option>Live sound / engineering</option>
+              <option>Film &amp; video</option>
+              <option>Game audio</option>
+              <option>System design / AV</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="c-msg">Message</label>
+            <textarea id="c-msg" name="message" rows="6" required placeholder="Dates, venue, what you need…"></textarea>
+          </div>
+        </div>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
+        <button type="submit" class="btn btn-primary" id="c-send">Send message</button>
+        <p class="form-status" id="c-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <aside class="contact-card">
+        <h2 style="font-size:1.3rem;margin-bottom:18px;">Direct</h2>
+        <div class="contact-row"><span class="label">Email</span><a href={`mailto:${SITE.email}`}>{SITE.email}</a></div>
+        <div class="contact-row"><span class="label">Phone</span><a href={`tel:${SITE.phone.replace(/[^+\d]/g, "")}`}>{SITE.phone}</a></div>
+        <div class="contact-row"><span class="label">Location</span>{SITE.location}</div>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener("submit", async (e) => {
+    const form = (e.target as HTMLElement).closest<HTMLFormElement>("#contact-form");
+    if (!form) return;
+    e.preventDefault();
+    const status = document.getElementById("c-status")!;
+    const btn = document.getElementById("c-send") as HTMLButtonElement;
+    const data = new FormData(form);
+    const say = (msg: string, kind: "ok" | "err") => { status.textContent = msg; status.className = `form-status ${kind}`; };
+
+    if (data.get("_gotcha")) return; // bot
+    if (!data.get("name") || !/^\S+@\S+\.\S+$/.test(String(data.get("email"))) || !data.get("message")) {
+      say("Please fill in your name, a valid email and a message.", "err");
+      return;
+    }
+
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) {
+      // No form service configured yet: hand off to the visitor's email app.
+      const body = `${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})`;
+      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(String(data.get("topic")))}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+
+    btn.disabled = true; btn.textContent = "Sending…";
+    try {
+      const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error();
+      form.reset();
+      say("Thanks — your message is on its way. I'll reply soon.", "ok");
+    } catch {
+      say(`Something went wrong. Please email ${form.dataset.email} directly.`, "err");
+    } finally {
+      btn.disabled = false; btn.textContent = "Send message";
+    }
+  });
+</script>

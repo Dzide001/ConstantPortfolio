@@ -48,6 +48,8 @@ export const SITE = {
   email: "constantk.dzah@gmail.com",
   phone: "+1 (203) 627-3179",
   location: "New Haven, CT",
+  // Paste your Formspree endpoint here (https://formspree.io/f/xxxxxxx). Empty = form falls back to opening the visitor's email app.
+  formEndpoint: "",
 };
 
 export const EXPERIENCE = [
