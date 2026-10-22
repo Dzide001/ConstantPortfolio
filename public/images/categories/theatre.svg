@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#152a4a"/>
+      <stop offset="100%" stop-color="#081019"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g)"/>
+  <g stroke="#5b7fd6" stroke-width="3" fill="none" opacity="0.55">
+    <path d="M100 350 Q400 150 700 350"/>
+    <path d="M100 380 Q400 200 700 380"/>
+  </g>
+  <g fill="#5b7fd6" opacity="0.85">
+    <rect x="360" y="230" width="14" height="90" rx="4"/>
+    <rect x="390" y="200" width="14" height="120" rx="4"/>
+    <rect x="420" y="250" width="14" height="70" rx="4"/>
+  </g>
+  <text x="400" y="410" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#d6e0f5">Theatre</text>
+</svg>

@@ -1,0 +1,69 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { CATEGORIES } from "../../data/categories";
+import { allProjects, resolvePhotos, summaryFor, trackSrc, url } from "../../lib/projects";
+
+export async function getStaticPaths() {
+  return (await allProjects()).map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+const { project: p } = Astro.props;
+const category = CATEGORIES.find((c) => c.id === p.category)!;
+const photos = await resolvePhotos(p);
+const tracks = p.tracks.map((t) => ({ ...t, src: trackSrc(t.src) }));
+const description = p.note || summaryFor(p);
+const og = p.gallery.length ? photos[0].srcFull : undefined;
+---
+<Layout title={p.title} active="portfolio" description={description} image={og}>
+  <section class="project-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href={url("portfolio/")}>Portfolio</a><span class="sep" aria-hidden="true">&rsaquo;</span><a href={url(`portfolio/${category.id}/`)}>{category.name}</a><span class="sep" aria-hidden="true">&rsaquo;</span>
+        <span>{p.title}</span>
+      </div>
+      <h1>{p.title}</h1>
+      <div class="project-meta-row">
+        <span class="tag role-tag">{p.role}</span>
+        {p.venue && <span class="tag">{p.venue}</span>}
+        {p.year && <span class="tag">{p.year}</span>}
+        {p.director && <span class="tag">Dir. {p.director}</span>}
+      </div>
+    </div>
+  </section>
+  <div class="container" style="padding-top:40px;padding-bottom:40px;">
+    <div class="detail-grid">
+      <div>
+        <div class="summary-block">
+          <h3>Summary</h3>
+          <p>{summaryFor(p)}</p>
+          {p.note ? <p>{p.note}</p> : <p class="note-placeholder">A personal write-up for this project is coming soon.</p>}
+        </div>
+        <div class="summary-block">
+          <h3>Gallery</h3>
+          <div class="gallery-grid">
+            {photos.map((ph) => <img src={ph.src} data-full={ph.srcFull} width={ph.width} height={ph.height} alt={`${p.title} photo`} loading="lazy" decoding="async" />)}
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="about-h" style="margin-bottom:10px;">Playlist</h3>
+        <div class="playlist-player" data-queue-id={p.id} data-tracks={JSON.stringify(tracks)} data-title={p.title} data-subtitle={p.venue || category.name}>
+          {tracks.length ? (
+            <>
+              <p class="playlist-hint">Click a track to play it in the bar at the bottom of the screen. It keeps playing as you browse.</p>
+              <ul class="track-list">
+                {tracks.map((t, i) => (
+                  <li data-track-index={i}>
+                    <span class="track-num">{i + 1}</span>
+                    <span class="track-name">{t.title}</span>
+                    <span class="track-playing-icon"></span>
+                    <span class="track-dur">{t.duration ?? ""}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : <div class="player-empty">No audio has been added for this project yet.</div>}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CategoryCarousel from "../../components/CategoryCarousel.astro";
+---
+<Layout title="Portfolio" active="portfolio" description="Sound design and audio engineering work in theatre, film, game audio and system design.">
+  <section class="hero hero-sm">
+    <div class="container">
+      <div class="hero-eyebrow">Portfolio</div>
+      <h1>Work, by category</h1>
+      <p class="lead">Click a category to see the projects in it, listen to a quick preview, and open the full project page for photos and the complete playlist.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:56px;">
+    <div class="container">
+      <div class="carousel-nav" style="justify-content:flex-end;margin-bottom:16px;">
+        <button class="carousel-nav-btn" data-scroll="portfolio-cats" data-dir="-1" aria-label="Scroll left">&#8249;</button>
+        <button class="carousel-nav-btn" data-scroll="portfolio-cats" data-dir="1" aria-label="Scroll right">&#8250;</button>
+      </div>
+      <CategoryCarousel id="portfolio-cats" text="description" />
+    </div>
+  </section>
+</Layout>

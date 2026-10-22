@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { url } from "../lib/projects";
+---
+<Layout title="Not found" noindex>
+  <div class="container empty-state" style="padding-top:120px;padding-bottom:120px;">
+    <h3>Page not found</h3>
+    <p><a href={url("portfolio/")} style="color:var(--accent-bright)">Back to the portfolio</a></p>
+  </div>
+</Layout>

@@ -1,0 +1,21 @@
+---
+import { url } from "../lib/projects";
+const { active = "" } = Astro.props;
+const links = [
+  { href: url(), label: "Home", key: "home" },
+  { href: url("portfolio/"), label: "Portfolio", key: "portfolio" },
+  { href: url("about/"), label: "About", key: "about" },
+  { href: url("about/#contact"), label: "Contact", key: "contact" },
+];
+---
+<header class="site-header">
+  <nav class="nav" aria-label="Main">
+    <a class="nav-brand" href={url()}>Constant <span>Dzah</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu" id="nav-toggle">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      {links.map((l) => (
+        <li><a href={l.href} class={l.key === active ? "active" : ""} aria-current={l.key === active ? "page" : undefined}>{l.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import { url, trackSrc, type Project, type Photo } from "../lib/projects";
+import type { Category } from "../data/categories";
+const { project: p, photo, category } = Astro.props as { project: Project; photo: Photo; category: Category };
+const href = url(`project/${p.id}/`);
+const tracks = p.tracks.map((t) => ({ ...t, src: trackSrc(t.src) }));
+---
+<article class="project-card" data-cat={p.category}>
+  <a href={href} tabindex="-1" aria-hidden="true">
+    <div class="thumb"><img src={photo.src} width={photo.width} height={photo.height} alt="" loading="lazy" decoding="async" /></div>
+  </a>
+  <div class="body">
+    <div class="meta">{p.venue}{p.year ? ` · ${p.year}` : ""}</div>
+    <h3><a href={href}>{p.title}</a></h3>
+    <div class="role">{p.role}</div>
+  </div>
+  <div class="mini-player" data-queue-id={p.id} data-tracks={JSON.stringify(tracks)} data-title={p.title} data-subtitle={category.name}>
+    {tracks.length ? (
+      <div class="row">
+        <button class="play-btn" data-card-play aria-label="Play">&#9658;</button>
+        <div class="track-info">
+          <div class="track-title">{tracks[0].title}</div>
+          <div class="track-sub">{tracks.length} track{tracks.length > 1 ? "s" : ""} · tap to play</div>
+        </div>
+      </div>
+    ) : <p class="empty-note" style="margin:0">No audio clips added yet.</p>}
+  </div>
+  <div class="card-actions" style="padding:0 20px 18px;">
+    <a class="view-link" href={href}>View project &rarr;</a>
+  </div>
+</article>

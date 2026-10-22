@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CategoryCarousel from "../components/CategoryCarousel.astro";
+import { url } from "../lib/projects";
+const bars = [30, 55, 85, 45, 100, 65, 40, 90, 55, 75, 35, 60, 95, 50, 70, 40, 80, 55, 30, 65, 45, 85, 60, 35];
+---
+<Layout active="home">
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Sound Design &amp; Audio Engineering</div>
+      <h1>Constant K. Dzah</h1>
+      <p class="lead">
+        I design and mix sound for the stage, screen, and live events — from Yale Repertory Theatre
+        and Long Wharf Theatre to festival stages and house-of-worship systems. MFA in Sound Design,
+        Yale School of Drama.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href={url("portfolio/")}>View Portfolio</a>
+        <a class="btn btn-ghost" href={url("about/")}>About &amp; Résumé</a>
+      </div>
+      <svg class="hero-wave" viewBox="0 0 240 56" aria-hidden="true" preserveAspectRatio="none">
+        {bars.map((h, i) => (
+          <rect x={i * 10 + 2} y={28 - (h / 100) * 26} width="5" height={(h / 100) * 52} rx="2.5" style={`animation-delay:${(i * 0.11).toFixed(2)}s`} />
+        ))}
+      </svg>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="carousel-head">
+        <div>
+          <h2>Browse by category</h2>
+          <p>Work organized across theatre, film &amp; video, game audio, and system design.</p>
+        </div>
+        <div class="carousel-nav" style="align-items:center;gap:18px;">
+          <a class="view-link" href={url("portfolio/")}>See full portfolio &rarr;</a>
+          <button class="carousel-nav-btn" data-scroll="home-cats" data-dir="-1" aria-label="Scroll left">&#8249;</button>
+          <button class="carousel-nav-btn" data-scroll="home-cats" data-dir="1" aria-label="Scroll right">&#8250;</button>
+        </div>
+      </div>
+      <CategoryCarousel id="home-cats" />
+    </div>
+  </section>
+</Layout>

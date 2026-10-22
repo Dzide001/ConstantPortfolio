@@ -1,0 +1,85 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "@fontsource-variable/fraunces";
+import "@fontsource-variable/inter";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../data/categories";
+import { url } from "../lib/projects";
+
+interface Props { title?: string; description?: string; image?: string; active?: string; noindex?: boolean }
+const {
+  title,
+  description = "Portfolio of Constant K. Dzah, sound designer and audio engineer — theatre, film, live sound, and system design.",
+  image,
+  active = "",
+  noindex = false,
+} = Astro.props;
+const fullTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — Sound Designer & Audio Engineer`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image || url("og-default.png"), Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#060d16" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={url("favicon.svg")} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header active={active} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <div id="sticky-player" class="sticky-player" transition:persist transition:name="player" role="region" aria-label="Audio player">
+      <div class="deck-row">
+        <div class="deck-info">
+          <div class="deck-disc" id="deck-disc">&#9835;</div>
+          <div class="deck-text">
+            <div class="deck-title" id="deck-title">&mdash;</div>
+            <div class="deck-subtitle" id="deck-subtitle"></div>
+          </div>
+        </div>
+        <div class="deck-center">
+          <div class="deck-controls">
+            <button class="deck-btn" id="deck-prev" aria-label="Previous track">&#9198;</button>
+            <button class="deck-play" id="deck-play" aria-label="Play">&#9658;</button>
+            <button class="deck-btn" id="deck-next" aria-label="Next track">&#9197;</button>
+          </div>
+          <div class="deck-timeline">
+            <span id="deck-current">0:00</span>
+            <div class="deck-scrub" id="deck-scrub"><div class="deck-scrub-fill" id="deck-scrub-fill"></div></div>
+            <span id="deck-duration">0:00</span>
+          </div>
+        </div>
+        <div class="deck-end"><button class="deck-close" id="deck-close" aria-label="Close player">&times;</button></div>
+      </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-label="Photo viewer">
+      <button class="lightbox-close" aria-label="Close">&times;</button>
+      <img alt="" />
+    </div>
+
+    <script>
+      import "../scripts/player.ts";
+    </script>
+  </body>
+</html>

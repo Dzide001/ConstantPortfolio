@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { EXPERIENCE, SITE } from "../data/categories";
+import { url } from "../lib/projects";
+const consoles = ["DiGiCo", "Yamaha (CL / QL / Rivage)", "Avid VENUE / S6L", "Allen & Heath", "QLab (builds shows from scratch)", "Dante, MADI/AES, AVB networking"];
+---
+<Layout title="About" active="about" description="MFA in Sound Design, Yale School of Drama. Experience, education, tools and contact details for Constant K. Dzah.">
+  <section class="hero hero-sm">
+    <div class="container">
+      <div class="hero-eyebrow">About</div>
+      <h1>{SITE.name}</h1>
+      <p class="lead">Sound Designer &amp; Audio Engineer — MFA in Sound Design, Yale School of Drama (2026). Based in {SITE.location}.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container about-grid">
+      <div>
+        <img class="headshot" src={url("images/about/headshot-placeholder.svg")} alt="Headshot" width="400" height="400" />
+        <h3 class="about-h">Education</h3>
+        <ul class="skill-list">
+          <li>MFA, Sound Design — David Geffen School of Drama, Yale University (2026)</li>
+          <li>BFA, Theatre Arts — University of Ghana (2020)</li>
+        </ul>
+        <h3 class="about-h">Consoles &amp; Systems</h3>
+        <ul class="skill-list">{consoles.map((c) => <li>{c}</li>)}</ul>
+        <h3 class="about-h">Languages</h3>
+        <ul class="skill-list"><li>English</li><li>Ewe</li><li>Twi</li></ul>
+      </div>
+      <div>
+        <h2>Experience</h2>
+        <div class="timeline">
+          {EXPERIENCE.map((e) => (
+            <div class="timeline-item">
+              <div class="role">{e.role}</div>
+              <div class="venue">{e.venue}</div>
+              <div class="years">{e.years}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="contact" style="padding-top:0;">
+    <div class="container">
+      <div class="contact-card">
+        <h2 style="margin-bottom:18px;">Get in touch</h2>
+        <div class="contact-row"><span class="label">Email</span><a href={`mailto:${SITE.email}`}>{SITE.email}</a></div>
+        <div class="contact-row"><span class="label">Phone</span><a href={`tel:${SITE.phone.replace(/[^+\d]/g, "")}`}>{SITE.phone}</a></div>
+        <div class="contact-row"><span class="label">Location</span>{SITE.location}</div>
+      </div>
+    </div>
+  </section>
+</Layout>

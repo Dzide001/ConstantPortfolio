@@ -1,0 +1,18 @@
+---
+import { CATEGORIES } from "../data/categories";
+import { allProjects, url } from "../lib/projects";
+const { id, text = "tagline" } = Astro.props as { id: string; text?: "tagline" | "description" };
+const projects = await allProjects();
+---
+<div class="category-carousel" id={id}>
+  {CATEGORIES.map((c) => {
+    const n = projects.filter((p) => p.category === c.id).length;
+    return (
+      <a class="category-card" data-cat={c.id} href={url(`portfolio/${c.id}/`)}>
+        <div class="count">{n} project{n === 1 ? "" : "s"}</div>
+        <h3>{c.name}</h3>
+        <p>{c[text]}</p>
+      </a>
+    );
+  })}
+</div>

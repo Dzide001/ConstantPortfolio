@@ -1,0 +1,13 @@
+---
+import { SITE } from "../data/categories";
+import { url } from "../lib/projects";
+---
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>&copy; {new Date().getFullYear()} {SITE.name}</span>
+    <span class="footer-links">
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      <a href={url("about/")}>Résumé / About</a>
+    </span>
+  </div>
+</footer>

@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { CATEGORIES } from "../../data/categories";
+import { allProjects, resolvePhotos, url } from "../../lib/projects";
+
+export function getStaticPaths() {
+  return CATEGORIES.map((category) => ({ params: { category: category.id }, props: { category } }));
+}
+const { category } = Astro.props;
+const projects = (await allProjects()).filter((p) => p.category === category.id);
+const cards = await Promise.all(projects.map(async (p) => ({ p, photo: (await resolvePhotos(p, 600))[0] })));
+---
+<Layout title={category.name} active="portfolio" description={category.description}>
+  <div class="container" style="padding-top:56px;padding-bottom:40px;">
+    <header class="section-head category-head">
+      <div>
+        <div class="hero-eyebrow">{category.name}</div>
+        <h1 style="margin-bottom:6px;">{category.tagline}</h1>
+        <p>{category.description}</p>
+      </div>
+    </header>
+    {cards.length ? (
+      <div class="project-grid">
+        {cards.map(({ p, photo }) => <ProjectCard project={p} photo={photo} category={category} />)}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <h3>Nothing posted here yet</h3>
+        <p>Check back soon, or <a href={url("about/#contact")} style="color:var(--accent-bright)">get in touch</a> to talk about a project.</p>
+      </div>
+    )}
+  </div>
+</Layout>
