@@ -2,14 +2,16 @@
 import { ClientRouter } from "astro:transitions";
 import "@fontsource-variable/fraunces";
 import "@fontsource-variable/inter";
+import "@fontsource-variable/eb-garamond";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE } from "../data/categories";
 import { url } from "../lib/projects";
 
-interface Props { title?: string; description?: string; image?: string; active?: string; noindex?: boolean }
+interface Props { bodyClass?: string; title?: string; description?: string; image?: string; active?: string; noindex?: boolean }
 const {
+  bodyClass = "",
   title,
   description = "Portfolio of Constant K. Dzah, sound designer and audio engineer — theatre, film, live sound, and system design.",
   image,
@@ -40,7 +42,7 @@ const ogImage = new URL(image || url("og-default.png"), Astro.site).href;
     <meta name="twitter:card" content="summary_large_image" />
     <ClientRouter />
   </head>
-  <body>
+  <body class={bodyClass}>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header active={active} />
     <main id="main">

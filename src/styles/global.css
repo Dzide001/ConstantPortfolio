@@ -979,3 +979,38 @@ p { margin: 0 0 1em; color: var(--text-dim); }
 .form-status { margin: 16px 0 0; font-size: .9rem; min-height: 1.4em; }
 .form-status.ok { color: #9ee0b4; }
 .form-status.err { color: #f0b3ac; }
+
+/* ---------- Landing page (photo hero) ---------- */
+body.home { --cream: #f5f0dc; --navy: #0d1a23; background: var(--navy); }
+body.home .site-header { background: var(--navy); backdrop-filter: none; border-bottom: 0; }
+body.home .nav { max-width: none; padding: 22px 36px; }
+body.home .nav-brand, body.home .nav-links a {
+  font-family: "EB Garamond Variable", Georgia, serif; color: var(--cream); font-size: 1.3rem; font-weight: 400; letter-spacing: 0;
+}
+body.home .nav-brand span { color: inherit; }
+body.home .nav-brand { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+body.home .nav-links a { border-bottom: 0; text-underline-offset: 6px; }
+body.home .nav-links a:hover, body.home .nav-links a.active { text-decoration: underline; color: var(--cream); }
+
+.landing { position: relative; margin: 0 36px 36px; min-height: calc(100svh - 150px); display: flex; align-items: flex-end; }
+.landing-photo { position: absolute; inset: 0; overflow: hidden; }
+.landing-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 30%; }
+.landing-card {
+  position: relative; background: var(--navy); color: var(--cream);
+  width: min(46%, 620px); margin: 0 0 0 36px; padding: 40px 46px 44px; min-height: 340px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+.landing-card h1 { font-family: "EB Garamond Variable", Georgia, serif; font-weight: 400; font-size: clamp(2.4rem, 4.2vw, 3.8rem); line-height: 1.05; color: var(--cream); margin: 0; padding-right: 56px; }
+.landing-card p { font-family: "EB Garamond Variable", Georgia, serif; font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.5; color: var(--cream); margin: auto 0 0; max-width: 34em; }
+.landing-link { font-family: "EB Garamond Variable", Georgia, serif; font-size: 1.15rem; color: var(--cream); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; width: fit-content; }
+.landing-link:hover { opacity: .8; }
+.ornament { position: absolute; top: 40px; right: 40px; width: 34px; height: 34px; color: var(--cream); opacity: .9; }
+
+@media (max-width: 820px) {
+  body.home .nav { padding: 16px 20px; }
+  .landing { margin: 0 0 24px; flex-direction: column; align-items: stretch; min-height: 0; }
+  .landing-photo { position: relative; aspect-ratio: 4 / 4.2; }
+  .landing-photo img { object-position: 68% 25%; }
+  .landing-card { width: auto; margin: -64px 16px 0; padding: 28px 24px 30px; min-height: 0; }
+  .ornament { top: 28px; right: 24px; width: 28px; height: 28px; }
+}
