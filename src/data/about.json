@@ -1,0 +1,118 @@
+{
+  "intro": "Sound Designer & Audio Engineer — MFA in Sound Design, Yale School of Drama (2026). Based in New Haven, CT.",
+  "headshot": "images/about/headshot-placeholder.svg",
+  "education": [
+    "MFA, Sound Design — David Geffen School of Drama, Yale University (2026)",
+    "BFA, Theatre Arts — University of Ghana (2020)"
+  ],
+  "consoles": [
+    "DiGiCo",
+    "Yamaha (CL / QL / Rivage)",
+    "Avid VENUE / S6L",
+    "Allen & Heath",
+    "QLab (builds shows from scratch)",
+    "Dante, MADI/AES, AVB networking"
+  ],
+  "languages": [
+    "English",
+    "Ewe",
+    "Twi"
+  ],
+  "experience": [
+    {
+      "role": "Associate Sound Designer & Engineer",
+      "venue": "Long Wharf Theatre",
+      "years": "2026–present"
+    },
+    {
+      "role": "AV Specialist & Lead Audio Engineer",
+      "venue": "Church of Pentecost PIWC, New Haven, CT",
+      "years": "2024–present"
+    },
+    {
+      "role": "Overhire Sound Engineer / Audio Technician",
+      "venue": "Ogunquit Playhouse",
+      "years": "2026"
+    },
+    {
+      "role": "Overhire Sound Engineer / Audio Technician",
+      "venue": "Yale Cabaret",
+      "years": "2026"
+    },
+    {
+      "role": "Production Audio Engineer & Stage Monitor Mix Engineer",
+      "venue": "SOMI Live Concert",
+      "years": "2026"
+    },
+    {
+      "role": "Production Audio Engineer / FOH Mix Engineer",
+      "venue": "Skeleton Canoe, Yale University Theatre",
+      "years": "2026"
+    },
+    {
+      "role": "Sound Crew / Mix Engineer",
+      "venue": "International Festival of Arts & Ideas, New Haven, CT",
+      "years": "2024–2026"
+    },
+    {
+      "role": "Backup A1",
+      "venue": "Hedda Gabler, Yale Repertory Theatre",
+      "years": "2025"
+    },
+    {
+      "role": "Assistant Sound Designer & Engineer",
+      "venue": "Falcon Girls, Yale Repertory Theatre",
+      "years": "2025"
+    },
+    {
+      "role": "Stage Monitor Mix Engineer",
+      "venue": "Macbeth in Stride, University Theatre, Yale",
+      "years": "2024"
+    },
+    {
+      "role": "FOH Mix Engineer",
+      "venue": "Cleansed, University Theatre, Yale",
+      "years": "2024"
+    },
+    {
+      "role": "Video Editor",
+      "venue": "Motion Revolutions, Accra, Ghana",
+      "years": "2022–2023"
+    },
+    {
+      "role": "Assistant Sound Designer & A2",
+      "venue": "Mansa Musa (Musical), National Theatre, Accra, Ghana",
+      "years": "2022–2023"
+    },
+    {
+      "role": "Video Editor & Assistant Producer",
+      "venue": "TV3 (APL), Accra, Ghana",
+      "years": "2021"
+    },
+    {
+      "role": "A2",
+      "venue": "Something Must Kill a Man, National Theatre, Accra, Ghana",
+      "years": "2021"
+    },
+    {
+      "role": "Live Sound Engineer & DJ",
+      "venue": "4th IoD Ghana Corporate Governance Excellence Awards, Accra",
+      "years": "2021"
+    },
+    {
+      "role": "Live Sound Engineer",
+      "venue": "Lododo Art Foundation",
+      "years": "2021"
+    },
+    {
+      "role": "Teaching & Technical Assistant",
+      "venue": "University of Ghana",
+      "years": "2020–2021"
+    },
+    {
+      "role": "Video Editor Intern",
+      "venue": "TV3 (APL), Accra, Ghana",
+      "years": "2019"
+    }
+  ]
+}

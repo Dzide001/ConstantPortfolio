@@ -8,5 +8,5 @@
   <rect width="400" height="400" fill="url(#g)"/>
   <circle cx="200" cy="160" r="70" fill="#1d3a52"/>
   <path d="M80 360 Q200 250 320 360 Z" fill="#1d3a52"/>
-  <text x="200" y="380" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#6d8898">Add your headshot: images/about/headshot.jpg</text>
+  <text x="200" y="380" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#6d8898">Upload a headshot in /admin/ → About page</text>
 </svg>

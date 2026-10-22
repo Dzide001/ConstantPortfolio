@@ -15,7 +15,7 @@ npm run build      # outputs dist/
 
 ```
 src/data/projects.json   <- every project (edit in /admin/ or by hand)
-src/data/categories.ts   <- category text, your contact details, the About-page experience list
+src/data/*.json          <- page text, contact details, category text (edited in /admin/)
 src/images/<cat>/<id>/   <- project photos (Astro resizes them to WebP automatically)
 public/audio/<cat>/<id>/ <- audio clips
 public/images/about/     <- headshot (replace headshot-placeholder.svg, update src/pages/about.astro)
@@ -39,10 +39,13 @@ The project's **page address (id)** becomes its URL, so don't change it on exist
 **Trying changes before they go live (Chrome/Edge):** run `npm run dev`, open http://localhost:4321/admin/index.html,
 click **Work with Local Repository** and pick this folder. Edits then save to your files instead of GitHub.
 
-Editing by hand still works: `src/data/projects.json` is `{ "projects": [ ... ] }`; the array order is the tile order.
-Uploaded photos land in `src/images/uploads/` (Astro resizes them) and audio in `public/audio/uploads/`.
-Text on the About page, category descriptions and contact details live in `src/data/categories.ts` and
-`src/pages/about.astro` (not in the editor yet).
+**Everything is editable in /admin/:** *Portfolio* (projects), *Pages* (landing heading, welcome text and hero photo;
+About intro, headshot, education, consoles, languages and the experience timeline), *Category text* (names, taglines,
+descriptions) and *Site settings* (email, phone, location and the contact-form address).
+
+Editing by hand still works. The data lives in `src/data/`: `projects.json` (array order = tile order),
+`landing.json`, `about.json`, `site.json` and `categories/*.json`. Uploaded photos land in `src/images/uploads/`
+(Astro resizes them) and audio in `public/audio/uploads/`. Layout and design changes are code (`src/pages`, `src/styles`).
 
 ## Deploying (GitHub Pages)
 

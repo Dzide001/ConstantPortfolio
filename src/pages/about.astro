@@ -1,30 +1,31 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { EXPERIENCE, SITE } from "../data/categories";
-import { url } from "../lib/projects";
-const consoles = ["DiGiCo", "Yamaha (CL / QL / Rivage)", "Avid VENUE / S6L", "Allen & Heath", "QLab (builds shows from scratch)", "Dante, MADI/AES, AVB networking"];
+import { ABOUT, EXPERIENCE, SITE } from "../data/categories";
+import { Image } from "astro:assets";
+import { resolveImage, url } from "../lib/projects";
+const head = resolveImage(ABOUT.headshot);
+const headMeta = head.meta ? await head.meta : undefined;
 ---
 <Layout title="About" active="about" description="MFA in Sound Design, Yale School of Drama. Experience, education, tools and contact details for Constant K. Dzah.">
   <section class="hero hero-sm">
     <div class="container">
       <div class="hero-eyebrow">About</div>
       <h1>{SITE.name}</h1>
-      <p class="lead">Sound Designer &amp; Audio Engineer — MFA in Sound Design, Yale School of Drama (2026). Based in {SITE.location}.</p>
+      <p class="lead">{ABOUT.intro}</p>
     </div>
   </section>
   <section class="section">
     <div class="container about-grid">
       <div>
-        <img class="headshot" src={url("images/about/headshot-placeholder.svg")} alt="Headshot" width="400" height="400" />
+        {headMeta
+          ? <Image class="headshot" src={headMeta} alt={`Portrait of ${SITE.name}`} widths={[400, 800]} sizes="(max-width: 780px) 100vw, 400px" />
+          : <img class="headshot" src={head.src} alt={`Portrait of ${SITE.name}`} width="400" height="400" />}
         <h3 class="about-h">Education</h3>
-        <ul class="skill-list">
-          <li>MFA, Sound Design — David Geffen School of Drama, Yale University (2026)</li>
-          <li>BFA, Theatre Arts — University of Ghana (2020)</li>
-        </ul>
+        <ul class="skill-list">{ABOUT.education.map((e) => <li>{e}</li>)}</ul>
         <h3 class="about-h">Consoles &amp; Systems</h3>
-        <ul class="skill-list">{consoles.map((c) => <li>{c}</li>)}</ul>
+        <ul class="skill-list">{ABOUT.consoles.map((c) => <li>{c}</li>)}</ul>
         <h3 class="about-h">Languages</h3>
-        <ul class="skill-list"><li>English</li><li>Ewe</li><li>Twi</li></ul>
+        <ul class="skill-list">{ABOUT.languages.map((l) => <li>{l}</li>)}</ul>
       </div>
       <div>
         <h2>Experience</h2>

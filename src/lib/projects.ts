@@ -41,3 +41,9 @@ export async function resolvePhotos(p: Project, thumbWidth = 700): Promise<Photo
 }
 
 export const trackSrc = (src: string) => (/^https?:/.test(src) ? src : url(src));
+
+/** Resolve one image path from the CMS: optimized if it lives in src/images, otherwise served as-is from public/. */
+export function resolveImage(path: string) {
+  const loader = localImages["/src/" + strip(path)];
+  return loader ? { meta: loader().then((m) => m.default) } : { src: /^https?:/.test(path) ? path : url(path) };
+}

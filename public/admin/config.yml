@@ -66,3 +66,73 @@ collections:
                     accept: audio/*
                     media_folder: /public/audio/uploads
                     public_folder: /audio/uploads
+
+  - name: pages
+    label: Pages
+    files:
+      - name: landing
+        label: Landing page
+        file: src/data/landing.json
+        fields:
+          - { name: heading, label: Heading (on the navy card), widget: string }
+          - { name: text, label: Welcome text, widget: text }
+          - { name: linkLabel, label: Link text under the welcome text, widget: string }
+          - { name: photo, label: Hero photo, widget: image, hint: "Landscape photo, at least 2000px wide. The subject should be on the right side; the navy card covers the bottom left." }
+          - { name: photoAlt, label: Photo description (for screen readers), widget: string }
+      - name: about
+        label: About page
+        file: src/data/about.json
+        fields:
+          - { name: intro, label: Intro line under the page title, widget: text }
+          - { name: headshot, label: Headshot, widget: image }
+          - { name: education, label: Education, widget: list, label_singular: Item, field: { name: item, label: Item, widget: string } }
+          - { name: consoles, label: Consoles & systems, widget: list, label_singular: Item, field: { name: item, label: Item, widget: string } }
+          - { name: languages, label: Languages, widget: list, label_singular: Language, field: { name: item, label: Language, widget: string } }
+          - name: experience
+            label: Experience timeline
+            label_singular: Entry
+            widget: list
+            add_to_top: true
+            summary: "{{role}} — {{venue}}"
+            hint: "Drag to reorder. The top entry shows first."
+            fields:
+              - { name: role, label: Role, widget: string }
+              - { name: venue, label: Where, widget: string }
+              - { name: years, label: Years, widget: string }
+
+  - name: categories
+    label: Category text
+    files:
+      - name: theatre
+        label: Theatre
+        file: src/data/categories/theatre.json
+        fields: &categoryFields
+          - { name: name, label: Name, widget: string }
+          - { name: tagline, label: Tagline (page heading), widget: string }
+          - { name: description, label: Description, widget: text }
+      - name: film
+        label: Film & Video
+        file: src/data/categories/film.json
+        fields: *categoryFields
+      - name: game
+        label: Game Audio
+        file: src/data/categories/game.json
+        fields: *categoryFields
+      - name: system
+        label: System Design
+        file: src/data/categories/system.json
+        fields: *categoryFields
+
+  - name: settings
+    label: Site settings
+    files:
+      - name: site
+        label: Contact & site details
+        file: src/data/site.json
+        fields:
+          - { name: name, label: Your name, widget: string }
+          - { name: role, label: Job title, widget: string }
+          - { name: email, label: Email, widget: string }
+          - { name: phone, label: Phone, widget: string }
+          - { name: location, label: Location, widget: string }
+          - { name: formEndpoint, label: Contact form address (Formspree link), widget: string, required: false, hint: "Looks like https://formspree.io/f/xxxxxxx. Leave empty to make the form open the visitor's email app instead." }
