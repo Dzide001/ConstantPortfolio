@@ -14,7 +14,7 @@ npm run build      # outputs dist/
 ## Where things live
 
 ```
-src/data/projects.json   <- every project (edit by hand or through /admin/)
+src/data/projects.json   <- every project (edit in /admin/ or by hand)
 src/data/categories.ts   <- category text, your contact details, the About-page experience list
 src/images/<cat>/<id>/   <- project photos (Astro resizes them to WebP automatically)
 public/audio/<cat>/<id>/ <- audio clips
@@ -24,16 +24,25 @@ src/scripts/player.ts    <- the audio player
 legacy-site/             <- the previous plain-HTML version, kept as a backup
 ```
 
-## Adding content
+## Editing the site visually: /admin/
 
-Add a project to `src/data/projects.json` (unique `id`, `category` of `theatre | film | game | system`).
-Put photos in `src/images/<category>/<id>/` and list them as `"images/<category>/<id>/photo.jpg"` in `gallery`.
-Put audio in `public/audio/<category>/<id>/` and list `{ "title": "...", "src": "audio/<category>/<id>/cue.mp3" }` in `tracks`.
-`note` is the personal write-up shown on the project page and used for link previews.
+Open **https://constantdzah.com/admin/** (Sveltia CMS). It can add, edit, delete and **drag to reorder** projects,
+change a project's category, and upload photos and audio. The order of the list is the order of the tiles on the site.
 
-The `/admin/` page does the same through the GitHub API (it commits the JSON, photos and audio for you).
-Create a fine-grained token limited to this repo with **Contents: Read and write**, paste it in the
-Setup panel (stored only in your browser). Each save triggers a rebuild and redeploy.
+**Signing in (once):** click **Sign In Using Access Token** and paste a GitHub fine-grained token limited to this repo
+with **Contents: Read and write** (create it at github.com/settings/personal-access-tokens/new). It is stored only in
+your browser. Don't use "Sign In with GitHub": that button needs a login server this site doesn't have.
+
+Each save is a commit to `main`, which rebuilds and redeploys the site in a few minutes.
+The project's **page address (id)** becomes its URL, so don't change it on existing projects.
+
+**Trying changes before they go live (Chrome/Edge):** run `npm run dev`, open http://localhost:4321/admin/index.html,
+click **Work with Local Repository** and pick this folder. Edits then save to your files instead of GitHub.
+
+Editing by hand still works: `src/data/projects.json` is `{ "projects": [ ... ] }`; the array order is the tile order.
+Uploaded photos land in `src/images/uploads/` (Astro resizes them) and audio in `public/audio/uploads/`.
+Text on the About page, category descriptions and contact details live in `src/data/categories.ts` and
+`src/pages/about.astro` (not in the editor yet).
 
 ## Deploying (GitHub Pages)
 

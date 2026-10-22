@@ -3,10 +3,12 @@ import { getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { CATEGORIES } from "../data/categories";
 
-export const url = (p = "") => import.meta.env.BASE_URL + p.replace(/^\//, "");
+const strip = (p: string) => p.replace(/^\/+/, "");
+export const url = (p = "") => import.meta.env.BASE_URL + strip(p);
 
 export async function allProjects() {
-  return (await getCollection("projects")).map((e) => ({ id: e.id, ...e.data }));
+  // Astro returns entries sorted by id; restore the order they have in projects.json.
+  return (await getCollection("projects")).map((e) => ({ id: e.id, ...e.data })).sort((a, b) => a.order - b.order);
 }
 export type Project = Awaited<ReturnType<typeof allProjects>>[number];
 
@@ -28,7 +30,7 @@ export async function resolvePhotos(p: Project, thumbWidth = 700): Promise<Photo
   const paths = p.gallery.length ? p.gallery : [CATEGORIES.find((c) => c.id === p.category)!.heroImage];
   return Promise.all(
     paths.map(async (path) => {
-      const loader = localImages["/src/" + path];
+      const loader = localImages["/src/" + strip(path)];
       if (!loader) return { src: /^https?:/.test(path) ? path : url(path), srcFull: /^https?:/.test(path) ? path : url(path) };
       const meta = (await loader()).default;
       const thumb = await getImage({ src: meta, width: thumbWidth, format: "webp" });

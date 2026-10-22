@@ -1,0 +1,68 @@
+backend:
+  name: github
+  repo: Dzide001/ConstantPortfolio
+  branch: main
+
+site_url: https://constantdzah.com
+display_url: https://constantdzah.com
+
+# Default upload location. Photos go in src/images so Astro can resize them;
+# audio gets its own folder under public/ (see the tracks field below).
+media_folder: /src/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: site
+    label: Portfolio
+    files:
+      - name: projects
+        label: Projects
+        file: src/data/projects.json
+        fields:
+          - name: projects
+            label: Projects
+            label_singular: Project
+            widget: list
+            collapsed: true
+            add_to_top: true
+            summary: "{{title}} · {{category}}"
+            hint: "Drag a project by its handle to change the order tiles appear in on the site."
+            fields:
+              - { name: title, label: Title, widget: string }
+              - name: id
+                label: Page address (id)
+                widget: string
+                hint: "Lowercase letters, numbers and hyphens, e.g. my-new-show. It becomes /project/my-new-show/. Don't change it for existing projects or links to them will break."
+                pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Use lowercase letters, numbers and hyphens only."]
+              - name: category
+                label: Category
+                widget: select
+                options:
+                  - { label: Theatre, value: theatre }
+                  - { label: Film & Video, value: film }
+                  - { label: Game Audio, value: game }
+                  - { label: System Design, value: system }
+              - { name: role, label: Role, widget: string }
+              - { name: venue, label: Venue, widget: string, required: false }
+              - { name: year, label: Year, widget: string, required: false, hint: "e.g. 2026 or 2024–present" }
+              - { name: director, label: Director, widget: string, required: false }
+              - { name: note, label: Personal note, widget: text, required: false, hint: "Shown on the project page and in link previews." }
+              - name: gallery
+                label: Photos
+                widget: image
+                multiple: true
+                required: false
+              - name: tracks
+                label: Audio tracks
+                label_singular: Track
+                widget: list
+                required: false
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: Track title, widget: string }
+                  - name: src
+                    label: Audio file
+                    widget: file
+                    accept: audio/*
+                    media_folder: /public/audio/uploads
+                    public_folder: /audio/uploads
