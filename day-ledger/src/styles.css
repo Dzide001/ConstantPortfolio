@@ -88,7 +88,6 @@ section { background: var(--surface); border: 1px solid var(--line); border-radi
 .subadd { display: flex; gap: 8px; margin: 0 0 8px 13px; }
 .subadd input { flex: 1; }
 
-.calnote { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: var(--muted); margin-bottom: 12px; }
 .tl { position: relative; }
 .row { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 10px; min-height: 44px; border-top: 1px solid var(--line); }
 .hr { font: 11.5px var(--mono); color: var(--muted); padding-top: 6px; font-variant-numeric: tabular-nums; }
@@ -104,3 +103,17 @@ section { background: var(--surface); border: 1px solid var(--line); border-radi
 .backup { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; color: var(--muted); font-size: 13px; }
 .backup button { padding: 5px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.calnote { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: var(--muted); margin-bottom: 12px; }
+.calnote p { margin: 0; }
+.calnote code { font: 12px var(--mono); }
+.calrow { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.calbtns { display: flex; gap: 8px; }
+.calnote button { padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.calrow > button { background: var(--accent); color: var(--bg); border: 0; font-weight: 600; }
+.calnote button:disabled { opacity: .6; cursor: default; }
+.calerr { color: var(--warn); margin-top: 8px !important; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); margin-right: 4px; }
+.allday { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tag.ev { background: var(--event-soft); color: var(--event); }
+.blk.ev { border-color: var(--event); background: var(--event-soft); }

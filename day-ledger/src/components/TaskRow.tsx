@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { addDays } from '../dates';
 import { childrenOf, isCarriedOver } from '../tree';
+import type { Calendar } from '../calendar/useCalendar';
 import type { Ledger } from '../useLedger';
 import type { Node } from '../types';
 
@@ -8,12 +9,13 @@ interface Props {
   node: Node;
   nodes: Node[];
   ledger: Ledger;
+  cal: Calendar;
   isSub?: boolean;
 }
 
 const PRIORITY_LABEL = ['No priority', 'High priority', 'Medium priority'] as const;
 
-export function TaskRow({ node, nodes, ledger, isSub = false }: Props) {
+export function TaskRow({ node, nodes, ledger, cal, isSub = false }: Props) {
   const [open, setOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [draft, setDraft] = useState('');
@@ -36,9 +38,10 @@ export function TaskRow({ node, nodes, ledger, isSub = false }: Props) {
           <input type="checkbox" checked={node.done} onChange={() => ledger.toggle(node.id)} />
           <span className="txt">
             {node.title}
-            {(node.start || carried) && (
+            {(node.start || node.eventId || carried) && (
               <span className="tags">
                 {node.start && <span className="tag">{node.start}</span>}
+                {node.eventId && <span className="tag ev">On calendar</span>}
                 {carried && <span className="tag late">Carried over</span>}
               </span>
             )}
@@ -88,6 +91,17 @@ export function TaskRow({ node, nodes, ledger, isSub = false }: Props) {
                   ))}
                 </select>
               </label>
+              {cal.status === 'connected' && node.start && (
+                node.eventId ? (
+                  <button type="button" onClick={() => cal.unlinkTask(node)}>
+                    On calendar · remove
+                  </button>
+                ) : (
+                  <button type="button" onClick={() => cal.addTask(node)}>
+                    Add to calendar
+                  </button>
+                )
+              )}
               <button type="button" onClick={() => ledger.patch(node.id, { day: addDays(ledger.today, 1), start: undefined })}>
                 Move to tomorrow
               </button>
@@ -97,7 +111,14 @@ export function TaskRow({ node, nodes, ledger, isSub = false }: Props) {
             </>
           )}
           {confirmDelete ? (
-            <button type="button" className="danger" onClick={() => ledger.remove(node.id)}>
+            <button
+              type="button"
+              className="danger"
+              onClick={() => {
+                cal.removeTask(node);
+                ledger.remove(node.id);
+              }}
+            >
               Confirm delete{subs.length ? ` (+${subs.length} subtask${subs.length > 1 ? 's' : ''})` : ''}
             </button>
           ) : (
@@ -124,7 +145,7 @@ export function TaskRow({ node, nodes, ledger, isSub = false }: Props) {
       {subs.length > 0 && (
         <ul>
           {subs.map((s) => (
-            <TaskRow key={s.id} node={s} nodes={nodes} ledger={ledger} isSub />
+            <TaskRow key={s.id} node={s} nodes={nodes} ledger={ledger} cal={cal} isSub />
           ))}
         </ul>
       )}

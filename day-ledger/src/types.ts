@@ -19,6 +19,8 @@ export interface Node {
   /** Length of the time block in minutes. */
   minutes?: number;
   priority: 0 | 1 | 2;
+  /** Google Calendar event id when this task has been added to the calendar. */
+  eventId?: string;
   createdAt: number;
   doneAt?: number;
 }

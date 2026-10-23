@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { childrenOf, tasksForDay } from '../tree';
+import type { Calendar } from '../calendar/useCalendar';
 import type { Ledger } from '../useLedger';
 import { TaskRow } from './TaskRow';
 
-export function PlanPane({ ledger }: { ledger: Ledger }) {
+export function PlanPane({ ledger, cal }: { ledger: Ledger; cal: Calendar }) {
   const { nodes, today } = ledger;
   const goals = childrenOf(nodes, null);
   const [title, setTitle] = useState('');
@@ -80,7 +81,7 @@ export function PlanPane({ ledger }: { ledger: Ledger }) {
             {!isClosed && (
               <ul className="items">
                 {tasks.map((t) => (
-                  <TaskRow key={t.id} node={t} nodes={nodes} ledger={ledger} />
+                  <TaskRow key={t.id} node={t} nodes={nodes} ledger={ledger} cal={cal} />
                 ))}
               </ul>
             )}
