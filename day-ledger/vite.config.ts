@@ -28,5 +28,5 @@ export default defineConfig({
       },
     }),
   ],
-  test: { environment: 'node', setupFiles: ['fake-indexeddb/auto'] },
+  test: { environment: 'node', setupFiles: ['fake-indexeddb/auto'], exclude: ['**/node_modules/**', '**/*.emu.test.ts'] },
 });

@@ -8,7 +8,7 @@ const none: ReminderState = { fired: [], snoozed: {} };
 
 const task = (over: Partial<Node> = {}): Node => ({
   id: 't1', parentId: 'g', title: 'Deck', done: false, day: '2026-10-24', order: 0, priority: 0,
-  createdAt: 0, start: '10:00', minutes: 30, remindMinutes: 10, ...over,
+  createdAt: 0, updatedAt: 0, start: '10:00', minutes: 30, remindMinutes: 10, ...over,
 });
 
 describe('dueReminders', () => {

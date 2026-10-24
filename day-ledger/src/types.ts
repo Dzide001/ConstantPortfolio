@@ -25,6 +25,8 @@ export interface Node {
   eventId?: string;
   createdAt: number;
   doneAt?: number;
+  /** Last local or remote change, ms epoch. Decides which copy wins when devices sync. */
+  updatedAt: number;
 }
 
 export type Depth = 0 | 1 | 2;

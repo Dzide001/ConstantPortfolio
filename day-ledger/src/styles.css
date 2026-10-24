@@ -131,3 +131,16 @@ header { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; 
 .remind-btns { display: flex; flex-wrap: wrap; gap: 8px; }
 .remind-btns button { padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
 .remind-btns .primary { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
+
+.headright { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: flex-end; min-width: 0; }
+.syncwrap { position: relative; display: grid; gap: 6px; justify-items: end; }
+.chipmenu { cursor: pointer; color: var(--ink); }
+.chipmenu.bad { border-color: var(--warn); color: var(--warn); }
+.dot.busy { background: var(--event); }
+.dot.off { background: var(--muted); }
+.chipbtn:disabled { opacity: .6; cursor: default; }
+.syncmenu { width: min(340px, calc(100vw - 32px)); padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); font-size: 13.5px; display: grid; gap: 10px; }
+.syncmenu p { margin: 0; overflow-wrap: anywhere; }
+.syncbtns { display: flex; flex-wrap: wrap; gap: 8px; }
+.syncbtns button { padding: 5px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.syncbtns .danger { border-color: var(--warn); color: var(--warn); }

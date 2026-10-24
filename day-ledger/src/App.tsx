@@ -3,6 +3,8 @@ import { isCarriedOver, progressFor, tasksForDay } from './tree';
 import { useCalendar } from './calendar/useCalendar';
 import { useLedger } from './useLedger';
 import { useReminders } from './useReminders';
+import { useSync } from './sync/useSync';
+import { SyncPanel } from './components/SyncPanel';
 import { Alerts } from './components/Alerts';
 import { AlertsToggle } from './components/AlertsToggle';
 import { Backup } from './components/Backup';
@@ -13,6 +15,7 @@ export function App() {
   const ledger = useLedger();
   const cal = useCalendar(ledger);
   const reminders = useReminders(ledger);
+  const sync = useSync(ledger);
   if (!ledger.ready) return <div className="wrap" aria-busy="true" />;
 
   const { nodes, today } = ledger;
@@ -25,10 +28,13 @@ export function App() {
     <div className="wrap">
       <header>
         <div>
-          <div className="mock">Phase 3 · tasks stored on this device</div>
+          <div className="mock">Phase 4 · tasks stored on this device</div>
           <h1>{formatLong(today)}</h1>
         </div>
-        <AlertsToggle />
+        <div className="headright">
+          <SyncPanel sync={sync} />
+          <AlertsToggle />
+        </div>
       </header>
 
       <Alerts reminders={reminders} />

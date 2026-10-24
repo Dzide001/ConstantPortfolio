@@ -15,6 +15,7 @@ interface Window {
         initTokenClient(config: {
           client_id: string;
           scope: string;
+          hint?: string;
           callback: (r: GisTokenResponse) => void;
           error_callback?: (e: { type: string; message?: string }) => void;
         }): GisTokenClient;

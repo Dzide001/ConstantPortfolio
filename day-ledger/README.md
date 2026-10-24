@@ -8,7 +8,8 @@ Installable web app (PWA). Tasks are stored in the browser (IndexedDB): no accou
 ```
 npm install
 npm run dev        # http://localhost:5173
-npm test           # unit tests (tree logic, persistence, backup)
+npm test           # unit tests (tree logic, persistence, backup, calendar, reminders, sync merge)
+npm run test:emulator  # Firestore rules + backend against the emulator (needs Java)
 npm run build      # type-check + production build into dist/
 ```
 
@@ -21,6 +22,8 @@ npm run build      # type-check + production build into dist/
 - `src/backup.ts` JSON export/import
 - `src/useLedger.ts` React state + persistence + midnight rollover
 - `src/calendar/` Google sign-in, Calendar REST client, sync hook
+- `src/sync/` merge rules, sync engine, Firestore backend, `useSync` hook
+- `firebase/` Firestore security rules and emulator config
 - `src/reminders.ts`, `src/useReminders.ts`, `src/notifications.ts` in-app reminder rules, scheduler and system notifications
 - `src/components/` plan pane, schedule pane, task row, backup bar
 
@@ -29,5 +32,5 @@ npm run build      # type-check + production build into dist/
 1. Core app (done)
 2. Google Calendar: show events, create events from time-blocked tasks (done; setup in `docs/GOOGLE_SETUP.md`)
 3. Reminders: calendar popup reminders plus in-app alerts (done; see `docs/REMINDERS.md`)
-4. Optional cross-device sync, Firebase free tier (plan in `docs/SYNC_PLAN.md`)
+4. Cross-device sync, Firebase free tier (done, optional; setup in `docs/FIREBASE_SETUP.md`, design in `docs/SYNC_PLAN.md`)
 5. Quick-add parsing, recurring tasks, end-of-day review

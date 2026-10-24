@@ -29,7 +29,7 @@ export function Backup({ ledger }: { ledger: Ledger }) {
 
   return (
     <footer className="backup">
-      <span>Your tasks are stored only in this browser.</span>
+      <span>Your tasks are kept on this device. Sign in to sync them across devices.</span>
       <button type="button" onClick={exportFile}>
         Export backup
       </button>

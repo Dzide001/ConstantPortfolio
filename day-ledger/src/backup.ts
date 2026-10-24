@@ -36,5 +36,8 @@ export function fromBackup(text: string): Node[] {
   for (const n of obj.nodes as Node[]) {
     if (n.parentId && !ids.has(n.parentId)) throw new Error('The backup has a task with a missing parent.');
   }
-  return (obj.nodes as Node[]).map((n) => ({ ...n, priority: n.priority ?? 0, createdAt: n.createdAt ?? Date.now() }));
+  return (obj.nodes as Node[]).map((n) => {
+    const createdAt = n.createdAt ?? Date.now();
+    return { ...n, priority: n.priority ?? 0, createdAt, updatedAt: n.updatedAt ?? createdAt };
+  });
 }

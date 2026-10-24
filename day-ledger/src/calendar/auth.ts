@@ -44,6 +44,12 @@ function loadGis(): Promise<void> {
 }
 
 let token: { value: string; expiresAt: number } | null = null;
+let hint: string | undefined;
+
+/** Tells Google which account to use, so signing in to sync first means no account chooser for the calendar. */
+export function setHint(email: string | undefined) {
+  hint = email;
+}
 
 function request(prompt: string | undefined): Promise<string> {
   return loadGis().then(
@@ -52,6 +58,7 @@ function request(prompt: string | undefined): Promise<string> {
         const client = window.google!.accounts.oauth2.initTokenClient({
           client_id: CLIENT_ID,
           scope: SCOPE,
+          hint,
           callback: (r) => {
             if (r.error || !r.access_token) return reject(new Error(r.error_description || r.error || 'Sign-in failed.'));
             token = { value: r.access_token, expiresAt: Date.now() + (r.expires_in ?? 3600) * 1000 };

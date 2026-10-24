@@ -59,6 +59,7 @@ export function addNode(nodes: Node[], input: AddInput): Node[] {
     order: siblings.length ? siblings[siblings.length - 1].order + 1 : 0,
     priority: 0,
     createdAt: input.now ?? Date.now(),
+    updatedAt: input.now ?? Date.now(),
   };
   // A parent that was done becomes open again once it gets an unfinished child.
   const reopened = input.parentId ? setDone(nodes, input.parentId, false, 'self') : nodes;
@@ -151,4 +152,27 @@ export function progressFor(nodes: Node[], today: string): Progress {
     done += leaves.filter((l) => l.done).length;
   }
   return { done, total };
+}
+
+/**
+ * Re-applies "a parent is done exactly when all its children are done" after
+ * changes from another device were merged in. Only parents that have children are touched.
+ */
+export function repairCompletion(nodes: Node[]): Node[] {
+  let next = nodes;
+  for (let pass = 0; pass <= MAX_DEPTH; pass++) {
+    const parents = new Set(next.map((n) => n.parentId).filter((id): id is string => id !== null));
+    let changed = false;
+    for (const id of parents) {
+      const parent = next.find((n) => n.id === id);
+      if (!parent) continue;
+      const want = childrenOf(next, id).every((k) => k.done);
+      if (parent.done !== want) {
+        next = setDone(next, id, want, 'self');
+        changed = true;
+      }
+    }
+    if (!changed) break;
+  }
+  return next;
 }

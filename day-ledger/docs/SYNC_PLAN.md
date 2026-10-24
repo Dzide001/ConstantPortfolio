@@ -1,4 +1,6 @@
-# Phase 4 plan: cross-device sync with Firebase (free tier)
+# Phase 4: cross-device sync with Firebase (free tier)
+
+**Status: built.** Setup steps are in `FIREBASE_SETUP.md`. Differences from this plan are listed at the end.
 
 Goal: the same task list on a phone, tablet and laptop, updating within seconds, still working offline, at no cost for personal use.
 
@@ -65,3 +67,13 @@ Tasks stored in Firestore are readable by the project owner in the Firebase cons
 - Keep "works with no account" as the default and make sync opt-in (recommended).
 - Sync Calendar-linked `eventId`s as they are. The id is valid on every device for the same Google account.
 - Whether to add a "last synced" indicator and a manual "Sync now" button (recommended).
+
+## What was built, and where it differs from the plan
+
+- Tombstones and `updatedAt` are not stored by the editing code. `stamp()` in `src/sync/merge.ts` compares the list before and after each edit and sets `updatedAt` and writes tombstones, so `tree.ts` still edits plain lists.
+- Merge rules live in `mergeStates()` (last writer wins per node, deletion wins a tie, orphans removed). Sync logic is in `src/sync/engine.ts` behind a small `Backend` interface; `src/sync/firebase.ts` is the only file that knows about Firebase, and the SDK is loaded only when someone signs in.
+- The default Inbox goal now has a fixed id (`inbox`) so a second device does not create a second one.
+- Calendar sign-in was not merged into Firebase sign-in. They stay separate, and the calendar is given the account's email as a hint so it skips the account chooser.
+- Firestore uses its default in-memory cache. The app's own IndexedDB copy is the offline store, and the merge on start-up re-sends anything that did not reach the cloud.
+- Tombstones are never purged yet. They are tiny; a purge job would have to avoid a device that has been offline for months bringing old tasks back.
+- Not done: a "last synced" detail beyond the status chip, an end-to-end encrypted option, and sync of reminder state (each device alerts for itself).
