@@ -18,6 +18,8 @@ export interface Node {
   start?: string;
   /** Length of the time block in minutes. */
   minutes?: number;
+  /** Reminder lead time in minutes before `start` (0 = at start). null = no reminder, undefined = never set. */
+  remindMinutes?: number | null;
   priority: 0 | 1 | 2;
   /** Google Calendar event id when this task has been added to the calendar. */
   eventId?: string;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { addDays } from '../dates';
+import { DEFAULT_LEAD, LEAD_OPTIONS } from '../reminders';
 import { childrenOf, isCarriedOver } from '../tree';
 import type { Calendar } from '../calendar/useCalendar';
 import type { Ledger } from '../useLedger';
@@ -41,6 +42,9 @@ export function TaskRow({ node, nodes, ledger, cal, isSub = false }: Props) {
             {(node.start || node.eventId || carried) && (
               <span className="tags">
                 {node.start && <span className="tag">{node.start}</span>}
+                {node.start && node.remindMinutes != null && (
+                  <span className="tag">{node.remindMinutes === 0 ? 'Alert at start' : `Alert ${node.remindMinutes}m before`}</span>
+                )}
                 {node.eventId && <span className="tag ev">On calendar</span>}
                 {carried && <span className="tag late">Carried over</span>}
               </span>
@@ -75,7 +79,13 @@ export function TaskRow({ node, nodes, ledger, cal, isSub = false }: Props) {
                 <input
                   type="time"
                   value={node.start ?? ''}
-                  onChange={(e) => ledger.patch(node.id, { start: e.target.value || undefined, minutes: node.minutes ?? 30 })}
+                  onChange={(e) =>
+                    ledger.patch(node.id, {
+                      start: e.target.value || undefined,
+                      minutes: node.minutes ?? 30,
+                      remindMinutes: node.remindMinutes === undefined ? DEFAULT_LEAD : node.remindMinutes,
+                    })
+                  }
                 />
               </label>
               <label className="inline">
@@ -91,6 +101,27 @@ export function TaskRow({ node, nodes, ledger, cal, isSub = false }: Props) {
                   ))}
                 </select>
               </label>
+              {node.start && (
+                <label className="inline">
+                  Remind
+                  <select
+                    value={node.remindMinutes === null || node.remindMinutes === undefined ? '' : String(node.remindMinutes)}
+                    onChange={(e) => ledger.patch(node.id, { remindMinutes: e.target.value === '' ? null : Number(e.target.value) })}
+                  >
+                    {LEAD_OPTIONS.map((o) => (
+                      <option key={String(o.value)} value={o.value === null ? '' : String(o.value)}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              {node.start && !node.eventId && cal.status !== 'connected' && (
+                <span className="hint">In-app alerts only work while Day Ledger is open.</span>
+              )}
+              {node.start && node.eventId && node.remindMinutes != null && (
+                <span className="hint">Google Calendar sends this reminder, even when the app is closed.</span>
+              )}
               {cal.status === 'connected' && node.start && (
                 node.eventId ? (
                   <button type="button" onClick={() => cal.unlinkTask(node)}>

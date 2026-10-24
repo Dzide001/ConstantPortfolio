@@ -18,6 +18,8 @@ export interface TaskEventInput {
   day: string;
   start: string; // HH:MM
   minutes: number;
+  /** See Node.remindMinutes. undefined leaves the calendar's own default reminders alone. */
+  remindMinutes?: number | null;
 }
 
 export class ApiError extends Error {
@@ -63,13 +65,22 @@ export function mapEvent(raw: RawEvent, day: string): CalEvent | null {
   };
 }
 
-export function eventBody({ title, day, start, minutes }: TaskEventInput) {
+export function eventBody({ title, day, start, minutes, remindMinutes }: TaskEventInput) {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const endMin = Math.min(toMinutes(start) + minutes, 24 * 60 - 1);
   return {
     summary: title,
     start: { dateTime: `${day}T${start}:00`, timeZone },
     end: { dateTime: `${day}T${fromMinutes(endMin)}:00`, timeZone },
+    // Google Calendar delivers this popup on every device the account is signed in on, even when this app is closed.
+    ...(remindMinutes === undefined
+      ? {}
+      : {
+          reminders: {
+            useDefault: false,
+            overrides: remindMinutes === null ? [] : [{ method: 'popup', minutes: remindMinutes }],
+          },
+        }),
   };
 }
 

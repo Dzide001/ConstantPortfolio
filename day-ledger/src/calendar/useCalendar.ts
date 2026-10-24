@@ -6,7 +6,7 @@ import type { Node } from '../types';
 
 export type CalStatus = 'unconfigured' | 'disconnected' | 'connecting' | 'connected';
 
-const signature = (n: Node) => JSON.stringify([n.title, n.day, n.start, n.minutes]);
+const signature = (n: Node) => JSON.stringify([n.title, n.day, n.start, n.minutes, n.remindMinutes]);
 const message = (e: unknown) => (e instanceof Error ? e.message : 'Something went wrong with Google Calendar.');
 
 export function useCalendar(ledger: Ledger) {
@@ -89,7 +89,7 @@ export function useCalendar(ledger: Ledger) {
       if (prev === undefined || prev === sig) continue;
       const eventId = n.eventId;
       const job = n.start
-        ? api.update(eventId, { title: n.title, day: n.day, start: n.start, minutes: n.minutes ?? 30 })
+        ? api.update(eventId, { title: n.title, day: n.day, start: n.start, minutes: n.minutes ?? 30, remindMinutes: n.remindMinutes })
         : api.remove(eventId).then(() => patch(n.id, { eventId: undefined }));
       job.then(refresh, fail);
     }
@@ -99,7 +99,7 @@ export function useCalendar(ledger: Ledger) {
     async (n: Node) => {
       if (!n.start) return;
       try {
-        const eventId = await api.create({ title: n.title, day: n.day, start: n.start, minutes: n.minutes ?? 30 });
+        const eventId = await api.create({ title: n.title, day: n.day, start: n.start, minutes: n.minutes ?? 30, remindMinutes: n.remindMinutes });
         synced.current.set(n.id, signature(n));
         patch(n.id, { eventId });
         await refresh();
